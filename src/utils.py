@@ -1,19 +1,23 @@
+import os
 import cv2
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+
 def load_models():
-    face_model = cv2.dnn.readNet(
-        "models/deploy.prototxt",
-        "models/res10_300x300_ssd_iter_140000_fp16.caffemodel"
-    )
+    # Rutas
+    faceProto = os.path.join(MODEL_DIR, "deploy.prototxt")
+    faceModel = os.path.join(MODEL_DIR, "res10_300x300_ssd_iter_140000_fp16.caffemodel")
 
-    age_model = cv2.dnn.readNet(
-        "models/deploy_age.prototxt",
-        "models/age_net.caffemodel"
-    )
+    ageProto = os.path.join(MODEL_DIR, "deploy_age.prototxt")
+    ageModel = os.path.join(MODEL_DIR, "age_net.caffemodel")
 
-    gender_model = cv2.dnn.readNet(
-        "models/deploy_gender.prototxt",
-        "models/gender_net.caffemodel"
-    )
+    genderProto = os.path.join(MODEL_DIR, "deploy_gender.prototxt")
+    genderModel = os.path.join(MODEL_DIR, "gender_net.caffemodel")
 
-    return face_model, age_model, gender_model
+    # Cargar redes
+    faceNet = cv2.dnn.readNet(faceModel, faceProto)
+    ageNet = cv2.dnn.readNet(ageModel, ageProto)
+    genderNet = cv2.dnn.readNet(genderModel, genderProto)
+
+    return faceNet, ageNet, genderNet
